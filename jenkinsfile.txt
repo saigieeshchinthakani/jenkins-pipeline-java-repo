@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building java source code..'
+		sh '''javac jenkins.java
+		java jenkins
+		'''
+		 //echo 'Fail!'; exit 1
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing java source code'
+            }
+        }
+        stage('package') {
+            steps {
+                echo 'Creating java package'
+            }
+        }
+	stage('deploy') {
+		steps {
+			echo 'Deploying java package....'
+		}
+            }
+        }
+    
+    post {
+        always {
+            echo 'This code will always run'
+        }
+        success {
+            echo 'This code will only be executed on success'
+        }
+        failure {
+            echo 'This code will only be executed on failure'
+        }
+        changed {
+            echo 'This code will only be executed on change.'
+        }
+    }
+}
